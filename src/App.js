@@ -12,10 +12,38 @@ const initialTodo = [
 
 function App() {
   const [todos, setTodos] = useState(initialTodo);
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
+  const [filterTrue, setFilterTrue] = useState(false);
+  const [filterFalse, setFilterFalse] = useState(false);
 
-  const filterTodos = todos.filter(el => el.title.toLowerCase().includes(searchInput));
+  const filterColorTrue = todos.filter(el => el.completed === true);
+  const filterColorFalse = todos.filter(el => el.completed === false);
 
+  const filterTodos = todos.filter((el) =>
+    el.title.toLowerCase().includes(searchInput)
+  );
+
+  const myFilter = () => {
+    if (filterTrue == true) {
+      if (searchInput !== "") {
+      return filterColorTrue.filter((el) =>
+      el.title.toLowerCase().includes(searchInput)
+      )}
+      else {
+        return filterColorTrue
+    }}
+    else if (filterFalse == true) {
+      if (searchInput !== "") {
+        return filterColorFalse.filter((el) =>
+        el.title.toLowerCase().includes(searchInput)
+      )}
+      else {
+        return filterColorFalse;
+      }
+    }
+    else return filterTodos;
+  }
+  
   const createTodo = (title) => {
     const newTodo = { id: uuidv4(), title, completed: false };
     setTodos([newTodo, ...todos]);
@@ -35,16 +63,21 @@ function App() {
     setTodos(newTodosState);
   };
 
-  
-
   return (
     <div className="container py-5" style={{ maxWidth: 576 }}>
       <TodoForm createTodo={createTodo} />
       <br />
-      <SearchForm setSearchInput={setSearchInput} />
+      <SearchForm
+        setSearchInput={setSearchInput}
+        searchInput={searchInput}
+        setFilterFalse={setFilterFalse}
+        setFilterTrue={setFilterTrue}
+        filterFalse={filterFalse}
+        filterTrue={filterTrue}
+      />
       <br />
       <ul className="list-group">
-        {filterTodos.map((el) => (
+        {myFilter().map((el) => (
           <TodoItem
             key={el.id}
             todo={el}
