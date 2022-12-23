@@ -18,8 +18,17 @@ function App() {
   };
 
   const deleteTodo = (id) => {
-    const newTodo = todos.filter(e => e.id !== id);
-    setTodos(newTodo);
+    const idx = todos.findIndex((el) => el.id === id);
+    const newTodosState = [...todos];
+    newTodosState.splice(idx, 1);
+    setTodos(newTodosState);
+  };
+
+  const updateTodo = (id, updateValue) => {
+    const idx = todos.findIndex((el) => el.id === id);
+    const newTodosState = [...todos];
+    newTodosState[idx] = { ...newTodosState[idx], ...updateValue };
+    setTodos(newTodosState);
   };
 
   return (
@@ -28,7 +37,12 @@ function App() {
       <br />
       <ul className="list-group">
         {todos.map((el) => (
-          <TodoItem key={el.id} todo={el} deleteTodo={deleteTodo} />
+          <TodoItem
+            key={el.id}
+            todo={el}
+            deleteTodo={deleteTodo}
+            updateTodo={updateTodo}
+          />
         ))}
       </ul>
     </div>
