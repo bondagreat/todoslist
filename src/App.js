@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import TodoForm from "./components/TodoForm";
 import TodoItem from "./components/TodoItem";
+import SearchForm from "./components/SearchForm";
 
 const initialTodo = [
   { id: uuidv4(), title: "Play game", completed: false },
@@ -11,6 +12,9 @@ const initialTodo = [
 
 function App() {
   const [todos, setTodos] = useState(initialTodo);
+  const [searchInput, setSearchInput] = useState('');
+
+  const filterTodos = todos.filter(el => el.title.toLowerCase().includes(searchInput));
 
   const createTodo = (title) => {
     const newTodo = { id: uuidv4(), title, completed: false };
@@ -31,12 +35,16 @@ function App() {
     setTodos(newTodosState);
   };
 
+  
+
   return (
     <div className="container py-5" style={{ maxWidth: 576 }}>
       <TodoForm createTodo={createTodo} />
       <br />
+      <SearchForm setSearchInput={setSearchInput} />
+      <br />
       <ul className="list-group">
-        {todos.map((el) => (
+        {filterTodos.map((el) => (
           <TodoItem
             key={el.id}
             todo={el}
