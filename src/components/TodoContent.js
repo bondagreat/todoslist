@@ -9,6 +9,7 @@ export default function TodoContent(props) {
           className="btn btn-outline-light"
           onClick={() =>
             props.updateTodo(props.todo.id, {
+              title: props.todo.title,
               completed: !props.todo.completed,
             })
           }

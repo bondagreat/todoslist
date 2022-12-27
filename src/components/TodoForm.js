@@ -13,7 +13,10 @@ function TodoForm(props) {
       setInput("");
       setError("");
       props.createTodo?.(input);
-      props.updateTodo?.(props.todo.id, {title: input});
+      props.updateTodo?.(props.todo.id, {
+        title: input,
+        completed: props.todo.completed,
+      });
       props.closeEdit?.();
     }
   };
