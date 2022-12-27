@@ -1,13 +1,28 @@
+import { useState } from "react";
+
 export default function SearchForm(props) {
+  const [value, setValue] = useState('');
+
   return (
     <div className="input-group">
       <input
         type="text"
         className="form-control"
-        onChange={(e) => props.setSearchInput(e.target.value.toLowerCase())}
+        value={value}
+        onChange={(e) => {setValue(e.target.value);
+
+          const delay = () => new Promise((resolve, reject) => {
+              setTimeout(() => {
+                resolve(props.setSearchInput(e.target.value));
+              }, 2000)
+            });
+            const timeout = async () => {
+              await delay()
+            };
+            timeout();
+        }}
         placeholder="Search"
-        value={props.searchInput}
-      />
+        />
       <button
         className="btn btn-warning"
         onClick={() => {
